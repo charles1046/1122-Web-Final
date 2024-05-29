@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 from database_helper import DatabaseHelper
+from llm import LLM
 
 app = Flask(__name__)
 app._static_folder = './static'
 db_helper = DatabaseHelper('static/json/database.json')
+llm = LLM()
 
 
 @app.route("/")
@@ -29,6 +31,20 @@ def query():
     rand_seed = float(rand_seed) if rand_seed else None
     query_result = db_helper.rand_pick(food_type, rand_seed)
     return jsonify(query_result)
+
+
+@app.route("/call_llm_hint", methods=["POST"])
+def call_llm_hint():
+    try:
+        if request.method == "POST":
+            question = request.form['question']
+            # logging.debug(f"Received question: {question}")
+            # 模擬處理，這裡可以根據實際需要調用 llm.invoke 進行處理
+            result = llm.invoke(question)
+            return jsonify({'answer': result.content})
+    except Exception as e:
+        # logging.error(f"Error occurred: {e}")
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':
