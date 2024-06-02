@@ -1,6 +1,7 @@
 import json
 from configparser import ConfigParser
 from langchain_google_genai import ChatGoogleGenerativeAI
+import os
 
 
 class LLM:
@@ -8,8 +9,8 @@ class LLM:
         self.config = ConfigParser()
         self.config.read("config.ini")
         self.llm = ChatGoogleGenerativeAI(
-            model=self.config["Gemini"]["model"],
-            google_api_key=self.config["Gemini"]["API_KEY"]
+            model=os.environ.get('model'),
+            google_api_key=os.environ.get('API_KEY')
         )
         self.menu = self.load_menu("static/json/database.json")
         
