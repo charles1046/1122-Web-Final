@@ -12,7 +12,7 @@ class LLM:
             model=os.environ.get('model'),
             google_api_key=os.environ.get('API_KEY')
         )
-        self.menu = self.load_menu("static\json\database.json")
+        self.menu = self.load_menu("static\\json\\database.json")
         
     def load_menu(self, filepath):
         with open(filepath, "r", encoding="utf-8") as file:
